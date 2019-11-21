@@ -1,2 +1,2 @@
 l = ["ayoub", "nik", "ab", "nik", "ayoub"]
-print(len(set(l)))
+print(1 / 0 if False else 2)
