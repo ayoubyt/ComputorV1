@@ -75,16 +75,18 @@ class Polynominal:
 
 
 		#remove whitespacecs
+		print(expr)
 		expr = re.sub(r"\s", "", expr)
-		#hh i think there is some thing better
-		#expr = re.sub(r"([a-zA-Z]|\)|\d)(\(|[a-zA-Z]|\d)", r"\1*\2", expr)
-		match = re.finditer(r"(?=(([a-zA-Z]|\)|\d+(\.\d+)?)(\(|[a-zA-Z]|\d+(\.\d+)?)))", expr)
-		for e in match:
-			print(e.group())
+		#putting '*' in its place
+		expr = re.sub(r"(?:(\d+(?:\.\d+)?|[a-zA-Z])(?=[a-zA-Z\(]))", r"\1*", expr)
+		expr = re.sub(r"(?:([\)])(?=(?:\d+(?:\.\d+)?|[a-zA-Z]|\()))", r"\1*", expr)
+		print(expr)
 		# print("expr = ", expr)
-		elements = re.finditer(r"(\d+(\.\d+)?|[a-zA-Z]+|[\+\*\/\-\^\(\)])", expr)
-		# print(elements)
-		#print(cls._to_postfix(elements))
+		elements = re.findall(r"[^a-zA-Z]\-\d+(?:\.\d+)?|[^a-zA-Z]\-[a-zA-Z]|[\+\*\/\-\^\(\)]", expr)
+		print(elements)
+		postfix = cls._to_postfix(elements)
+		print(postfix)
+		return elements
 
 	@classmethod
 	def _to_postfix(cls, arr):
@@ -97,17 +99,16 @@ class Polynominal:
 		opstack = deque()
 		output = []
 		for c in arr:
-			if (c.isdigit()):
-				output.append(Polynominal([float(c)]))
 			if c in ops:
 				if (len(opstack) > 0):
-					if (ops[c] < ops[opstack[-1]]):
-						output.append(opstack.pop())
-					elif (ops[c] == ops[opstack[-1]]):
-						if (c != "^"):
+					if opstack[-1] in ops:
+						if (ops[c] < ops[opstack[-1]]):
 							output.append(opstack.pop())
+						elif (ops[c] == ops[opstack[-1]]):
+							if (c != "^"):
+								output.append(opstack.pop())
 				opstack.append(c)
-			if (c in "()"):
+			elif (c in "()"):
 				if (c == "("):
 					opstack.append(c)
 				else:
@@ -116,7 +117,11 @@ class Polynominal:
 						if (tmp == "("):
 							break
 						else:
-							output.append(c)
+							output.append(tmp)
+			else:
+				output.append(c)
+			#print("output : ", output)
+			#print("opsstack: ", opstack, end="\n\n")
 		while(len(opstack) > 0):
 			output.append(opstack.pop())
 		return(output)
