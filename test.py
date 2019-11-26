@@ -1,2 +1,8 @@
-l = ["ayoub", "nik", "ab", "nik", "ayoub"]
-print(1 / 0 if False else 2)
+#!/usr/bin/python3.7
+import re
+
+from collections import deque
+
+s = "123456"
+
+print(re.findall(r"(?=(\d\d))", s))
