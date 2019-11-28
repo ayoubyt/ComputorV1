@@ -6,4 +6,8 @@ from packages.main.read_equation import get_user_input, read_equation
 from packages.math.polynominals import Polynominal
 
 #equation = read_equation()
-Polynominal.fromexpr("-x + x * 2")
+
+
+
+Polynominal.fromexpr("(x + 2)-3x + 4*x")
+

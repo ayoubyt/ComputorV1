@@ -5,4 +5,6 @@ from collections import deque
 
 s = "123456"
 
-print(re.findall(r"(?=(\d\d))", s))
+raise Exception
+
+print(1/0)
