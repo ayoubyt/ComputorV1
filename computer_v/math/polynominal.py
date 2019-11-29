@@ -92,8 +92,10 @@ class Polynominal:
 			if (isinstance(other, int) or isinstance(other, float)):
 				return Polynominal([other])
 			else:
-				raise self.PolynominalOperatorError(op, type(other))
+				raise self.Error.PolynominalOperatorError(op, type(other))
 		else:
+			if ((op == "/" or op == "**") and other.deg > 0):
+				raise self.Error.OpDivPowError()	
 			return other
 
 	@classmethod
@@ -105,24 +107,24 @@ class Polynominal:
 		# this function transform an arrays of elements to a deque
 
 		# remove whitespacecs
-		print(expr)
+		#print(expr)
 		expr = re.sub(r"\s", "", expr)
 		# putting '*' in its place
 		expr = re.sub(
 			r"(?:(\d+(?:\.\d+)?|[a-zA-Z])(?=[a-zA-Z\(]))", r"\1*", expr)
 		expr = re.sub(
 			r"(?:([\)])(?=(?:\d+(?:\.\d+)?|[a-zA-Z]|\()))", r"\1*", expr)
-		print(expr)
+		#print(expr)
 		# print("expr = ", expr)
 		elements = re.findall(
 			r"(?<![\w)])-?(?:\d+(?:\.\d+)?|[a-zA-Z])|[\*/+()^]|(?<=[\w)])-", expr)
-		print(elements)
+		#print(elements)
 		postfix = cls._to_postfix(elements)
-		print(postfix)
-		print(" ".join(postfix))
+		#print(postfix)
+		#print(" ".join(postfix))
 		result = cls._eval_postfix(postfix)
-		print(result)
-		return elements
+		#print(result)
+		return result
 
 	@classmethod
 	def _to_postfix(cls, arr):
@@ -136,13 +138,9 @@ class Polynominal:
 		output = []
 		for c in arr:
 			if c in ops:
-				if (len(opstack) > 0):
-					if opstack[-1] in ops:
-						if (ops[c] < ops[opstack[-1]]):
+				while (len(opstack) > 0) and (opstack[-1] in ops) and (ops[c] <= ops[opstack[-1]]):		
+						if (c != "^"):
 							output.append(opstack.pop())
-						if (ops[c] == ops[opstack[-1]]):
-							if (c != "^"):
-								output.append(opstack.pop())
 				opstack.append(c)
 			elif (c in "()"):
 				if (c == "("):
@@ -156,8 +154,8 @@ class Polynominal:
 							output.append(tmp)
 			else:
 				output.append(c)
-			print("output : ", output)
-			print("opsstack: ", opstack, end="\n\n")
+			#print("output : ", output)
+			#print("opsstack: ", opstack, end="\n\n")
 		while(len(opstack) > 0):
 			output.append(opstack.pop())
 		return(output)
@@ -182,7 +180,7 @@ class Polynominal:
 					elif (elem == "^"):
 						polystack.append(b ** a)
 				else:
-					raise cls.OpNumberError
+					raise cls.Error.OpNumberError
 			else:
 				if (re.search(r"[a-zA-Z]", elem)):
 					polystack.append((cls([0, -1]) if re.search(r"^-", elem) else cls([0, 1])))
@@ -190,16 +188,21 @@ class Polynominal:
 					polystack.append(cls([float(elem)]))
 		return polystack.pop()
 
-	class PolynominalError(Exception):
-		def __init__(self):
-			super()
-	
-	class PolynominalOperatorError(PolynominalError):
-		def __init__(self, operation, other):
-			self.msg = "{} oprator for {} and {} is not supported".format(operation, Polynominal, other)
-	
-	class OpNumberError(PolynominalError):
-		def __init__(self):
-			self.msg = "number of operators is more than oprands to evalutae"
+	class Error:
+		class PolynominalError(Exception):
+			def __init__(self):
+				super()
+		
+		class PolynominalOperatorError(PolynominalError):
+			def __init__(self, operation, other):
+				self.msg = "{} oprator for {} and {} is not supported".format(operation, Polynominal, other)
+		
+		class OpNumberError(PolynominalError):
+			def __init__(self):
+				self.msg = "number of operators is more than oprands to evalutae"
+
+		class OpDivPowError(PolynominalOperatorError):
+			def __init__(self):
+				self.msg = "can't rase power or divide by a polynomina with degree more than 0"
 
 	# def __pow__(self, other):
