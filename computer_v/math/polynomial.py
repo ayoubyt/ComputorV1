@@ -3,9 +3,9 @@ import re
 from collections import deque
 
 
-class Polynominal:
+class Polynomial:
 	"""
-			polynominal class respresents aplonominal hh
+			Polynomial class respresents aplonominal hh
 			you initiaise it by in inputing an array of the coefficients of tha polynomanal ordered from left to right
 			ex: 1 + 5x + 2x^2 --> plonominal([1, 5, 2])
 	"""
@@ -47,7 +47,7 @@ class Polynominal:
 			p1, p2 = p2, p1
 		for i, co in enumerate(p2):
 			p1[i] += co
-		return (Polynominal(p1))
+		return (Polynomial(p1))
 
 	def __sub__(self, other):
 		p1 = self.coefs
@@ -56,7 +56,7 @@ class Polynominal:
 			p1, p2 = p2, p1
 		for i, co in enumerate(p2):
 			p1[i] -= co
-		return (Polynominal(p1))
+		return (Polynomial(p1))
 
 	def __mul__(self, other):
 		p1 = self.coefs
@@ -67,7 +67,7 @@ class Polynominal:
 			for j in range(i + 1):
 				result[i] += (p1[j] if j < len(p1) else 0) * \
 					(p2[i - j] if i - j < len(p2) else 0)
-		return Polynominal(self.__trim_coefs(result))
+		return Polynomial(self.__trim_coefs(result))
 
 	def __truediv__(self, other):
 		p1 = self.coefs
@@ -75,27 +75,30 @@ class Polynominal:
 
 		for i in range(len(p1)):
 			p1[i] /= n
-		return Polynominal(p1)
+		return Polynomial(p1)
 
 	def __pow__(self, other):
 		p1 = self
 		n = int(self._set_op_param("**", other).coefs[0])
 		result = p1
 		if (n == 0):
-			return Polynominal([1])
+			return Polynomial([1])
 		for _ in range(n - 1):
 			result = result * p1
 		return result
 
 	def _set_op_param(self, op, other):
-		if (not isinstance(other, Polynominal)):
+		if (not isinstance(other, Polynomial)):
 			if (isinstance(other, int) or isinstance(other, float)):
-				return Polynominal([other])
+				return Polynomial([other])
 			else:
-				raise self.Error.PolynominalOperatorError(op, type(other))
+				raise self.PolynominalError(f"{op} is not suported for Polyomial an {type(other)}")
 		else:
 			if ((op == "/" or op == "**") and other.deg > 0):
-				raise self.Error.OpDivPowError()	
+				if op == "/":
+					raise self.PolynominalError("can't divide by a Polynomial with deg more than 0 (real number)")
+				if op == "**":
+					raise self.PolynominalError("can't raise a polynomina with deg more than 0 (real number) to another Polynomial")	
 			return other
 
 	@classmethod
@@ -107,20 +110,20 @@ class Polynominal:
 		# this function transform an arrays of elements to a deque
 
 		# remove whitespacecs
-		#print(expr)
+		print(expr)
 		expr = re.sub(r"\s", "", expr)
 		# putting '*' in its place
+		#TODO match negative numbers
 		expr = re.sub(
 			r"(?:(\d+(?:\.\d+)?|[a-zA-Z])(?=[a-zA-Z\(]))", r"\1*", expr)
 		expr = re.sub(
 			r"(?:([\)])(?=(?:\d+(?:\.\d+)?|[a-zA-Z]|\()))", r"\1*", expr)
-		#print(expr)
-		# print("expr = ", expr)
+		print(expr)
 		elements = re.findall(
 			r"(?<![\w)])-?(?:\d+(?:\.\d+)?|[a-zA-Z])|[\*/+()^]|(?<=[\w)])-", expr)
-		#print(elements)
+		print(elements)
 		postfix = cls._to_postfix(elements)
-		#print(postfix)
+		print(postfix)
 		#print(" ".join(postfix))
 		result = cls._eval_postfix(postfix)
 		#print(result)
@@ -180,7 +183,7 @@ class Polynominal:
 					elif (elem == "^"):
 						polystack.append(b ** a)
 				else:
-					raise cls.Error.OpNumberError
+					raise cls.PolynominalError("number of operators is mor than operands.")
 			else:
 				if (re.search(r"[a-zA-Z]", elem)):
 					polystack.append((cls([0, -1]) if re.search(r"^-", elem) else cls([0, 1])))
@@ -188,21 +191,11 @@ class Polynominal:
 					polystack.append(cls([float(elem)]))
 		return polystack.pop()
 
-	class Error:
-		class PolynominalError(Exception):
-			def __init__(self):
-				super()
-		
-		class PolynominalOperatorError(PolynominalError):
-			def __init__(self, operation, other):
-				self.msg = "{} oprator for {} and {} is not supported".format(operation, Polynominal, other)
-		
-		class OpNumberError(PolynominalError):
-			def __init__(self):
-				self.msg = "number of operators is more than oprands to evalutae"
-
-		class OpDivPowError(PolynominalOperatorError):
-			def __init__(self):
-				self.msg = "can't rase power or divide by a polynomina with degree more than 0"
-
-	# def __pow__(self, other):
+	class PolynominalError(Exception):
+		msg = ""
+		def __init__(self, msg):
+			self.msg = msg
+			Exception.__init__(self, msg)
+		def __str__(self):
+			return (self.msg)
+				

@@ -1,4 +1,4 @@
-import sys, getopt
+import sys, getopt, http
 from .validation import elemantary_validation, brackets_balance_validation
 #TODO: kmmal read_equation nikmmk hh4
 
@@ -9,6 +9,7 @@ def read_equation():
 	elemantary_validation(args)
 	equation = args[0]
 	brackets_balance_validation(equation)
+	#return(equation)
 
 def get_user_input():
 	try:
