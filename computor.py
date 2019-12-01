@@ -1,17 +1,32 @@
-#!/usr/bin/python3.7
+#!/usr/bin/env python3.7
 
 # this is the main page of our program
 # for more info, check the readme file
+import re
 from computer_v.main.read_equation import get_user_input, read_equation
-from computer_v.math.polynomial import Polynomial
-from computer_v.math.d2_polynomial import D2plynominal
+from computer_v.math.polynomial import Polynomial, D2plynominal, D1plynominal
+import computer_v.glob as g
 
-#equation = read_equation()
+equation = read_equation()
+#parisng var name
+g.varname = re.search(r"[a-zA-Z]+", equation).group(0)
+equation = re.sub(r"[a-zA-Z]+", "x", equation)
+left, right = equation.split("=")
+eq_poly = Polynomial.fromexpr(left) - Polynomial.fromexpr(right)
 
-p1 = Polynomial.fromexpr("(-2x + 4)-0.55x(x^2 + 5)")
-p2 = D2plynominal.fromexpr("x^2 + 4 + 2x")
+if (eq_poly.deg == 2):
+    D2plynominal(eq_poly.coefs).solve()
+elif (eq_poly.deg == 1):
+    D1plynominal(eq_poly.coefs).solve()
+elif (eq_poly.deg == 0):
+    if (eq_poly.coefs[0] == 0):
+        print("all numbers are solutions to this eqation")
+    else:
+        print("absurde expression")
+else:
+    print(eq_poly)
+    print(f"eqations of degree {eq_poly.deg} are not suported")
+#p = D2plynominal.fromexpr("x^2 + x + 1")
 
-print(p1)
-#print(p2)
+#print(p.coefs)
 
-#print(p1 ** 2)

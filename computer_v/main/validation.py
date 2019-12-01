@@ -23,7 +23,7 @@ def elemantary_validation(args):
 		pae("invalid characters\ninvalid characters detected: {}".format(ichars), 1)
 
 """
-	this function is built to check the balance the balance
+	this function is built to check the balance
 	of brackets,'(' and ')' 
 """
 def brackets_balance_validation(text):

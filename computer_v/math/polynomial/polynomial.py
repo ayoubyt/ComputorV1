@@ -19,7 +19,7 @@ class Polynomial:
 				__trim_coef is privat function designed to remove all
 				the nonsense zeros that the user inputs at the end of the array of coefficients
 		"""
-		while (len(coefs) > 0 and coefs[-1] == 0):
+		while (len(coefs) > 1 and coefs[-1] == 0):
 			coefs.pop()
 		return (coefs)
 
@@ -110,20 +110,19 @@ class Polynomial:
 		# this function transform an arrays of elements to a deque
 
 		# remove whitespacecs
-		print(expr)
+		#print(expr)
 		expr = re.sub(r"\s", "", expr)
 		# putting '*' in its place
-		#TODO match negative numbers
 		expr = re.sub(
-			r"(?:(\d+(?:\.\d+)?|[a-zA-Z])(?=[a-zA-Z\(]))", r"\1*", expr)
+			r"(?:(-?\d+(?:\.\d+)?|[a-zA-Z])(?=[a-zA-Z\(]))", r"\1*", expr)
 		expr = re.sub(
-			r"(?:([\)])(?=(?:\d+(?:\.\d+)?|[a-zA-Z]|\()))", r"\1*", expr)
-		print(expr)
+			r"(?:([\)])(?=(?:-?\d+(?:\.\d+)?|[a-zA-Z]|\()))", r"\1*", expr)
+		#print(expr)
 		elements = re.findall(
 			r"(?<![\w)])-?(?:\d+(?:\.\d+)?|[a-zA-Z])|[\*/+()^]|(?<=[\w)])-", expr)
-		print(elements)
+		#print(elements)
 		postfix = cls._to_postfix(elements)
-		print(postfix)
+		#print(postfix)
 		#print(" ".join(postfix))
 		result = cls._eval_postfix(postfix)
 		#print(result)
@@ -165,6 +164,10 @@ class Polynomial:
 
 	@classmethod
 	def _eval_postfix(cls, postfix):
+		"""
+			takes an array of string elements of a mathematical expresion
+			in postfix notation and evaluats it returning a single polynominal
+		"""
 		ops = {"+": 1, "-": 1, "*": 2, "/": 2, "^": 3}
 		polystack = deque()
 		for elem in postfix:
