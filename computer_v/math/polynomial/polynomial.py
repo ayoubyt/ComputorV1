@@ -53,10 +53,10 @@ class Polynomial:
 		p1 = self.coefs
 		p2 = self._set_op_param("-", other).coefs
 		if (len(p2) > len(p1)):
-			p1, p2 = p2, p1
+			p1, p2 = list(map(lambda x: -x, p2)), list(map(lambda x: -x, p1))
 		for i, co in enumerate(p2):
 			p1[i] -= co
-		return (Polynomial(p1))
+		return (Polynomial(p1)) 
 
 	def __mul__(self, other):
 		p1 = self.coefs
@@ -119,13 +119,13 @@ class Polynomial:
 			r"(?:(-?\d+(?:\.\d+)?|[a-zA-Z])(?=[a-zA-Z\(]))", r"\1*", expr)
 		expr = re.sub(
 			r"(?:([\)])(?=(?:-?\d+(?:\.\d+)?|[a-zA-Z]|\()))", r"\1*", expr)
-		print(expr)
+	#print(expr)
 		elements = re.findall(
 			r"(?<![\w)])-?(?:\d+(?:\.\d+)?|[a-zA-Z])|[\*/+()^]|(?<=[\w)])-", expr)
-		print(elements)
+	#print(elements)
 		postfix = cls._to_postfix(elements)
-		print(postfix)
-		print(" ".join(postfix))
+	#print(postfix)
+	#print(" ".join(postfix))
 		result = cls._eval_postfix(postfix)
 		#print(result)
 		return result

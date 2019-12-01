@@ -25,10 +25,11 @@ class D2plynominal(Polynomial):
 			print("delta is positive, so there are two real solutions :")
 			print("x1 = %f" % self.roots[0])
 			print("x2 = %f" % self.roots[1])
-		if (self.delta == 0):
+		elif (self.delta == 0):
 			print("delta iequal to 0, so there are one real solution :")
 			print("x = %f" % self.roots[0])
-			
+		else:
+			print("haw")
 
 
 	@classmethod
@@ -50,7 +51,9 @@ class D2plynominal(Polynomial):
 			_, b, a = self.coefs
 		if (self.delta > 0):
 			return (-b + func.bsqrt(self.delta)) / (2 * a), (-b - func.bsqrt(self.delta)) / (2 * a)
-		if (self.delta == 0):
+		elif (self.delta == 0):
 			return [-b / (2 * a)]
+		else:
+			return [0]
 		return [0, 0]
 

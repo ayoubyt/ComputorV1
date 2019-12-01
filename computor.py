@@ -12,6 +12,7 @@ equation = read_equation()
 g.varname = re.search(r"[a-zA-Z]+", equation).group(0)
 equation = re.sub(r"[a-zA-Z]+", "x", equation)
 left, right = equation.split("=")
+
 eq_poly = Polynomial.fromexpr(left) - Polynomial.fromexpr(right)
 
 if (eq_poly.deg == 2):
