@@ -112,18 +112,20 @@ class Polynomial:
 		# remove whitespacecs
 		#print(expr)
 		expr = re.sub(r"\s", "", expr)
+		expr = re.sub(
+			r"(^|[+*/)(])-", r"\1-1*", expr)
 		# putting '*' in its place
 		expr = re.sub(
 			r"(?:(-?\d+(?:\.\d+)?|[a-zA-Z])(?=[a-zA-Z\(]))", r"\1*", expr)
 		expr = re.sub(
 			r"(?:([\)])(?=(?:-?\d+(?:\.\d+)?|[a-zA-Z]|\()))", r"\1*", expr)
-		#print(expr)
+		print(expr)
 		elements = re.findall(
 			r"(?<![\w)])-?(?:\d+(?:\.\d+)?|[a-zA-Z])|[\*/+()^]|(?<=[\w)])-", expr)
-		#print(elements)
+		print(elements)
 		postfix = cls._to_postfix(elements)
-		#print(postfix)
-		#print(" ".join(postfix))
+		print(postfix)
+		print(" ".join(postfix))
 		result = cls._eval_postfix(postfix)
 		#print(result)
 		return result

@@ -19,6 +19,7 @@ class D2plynominal(Polynomial):
 		self.roots = self._get_roots()
 
 	def solve(self):
+		print(self, " = 0")
 		print("delta : %f" % self.delta)
 		if (self.delta > 0):
 			print("delta is positive, so there are two real solutions :")

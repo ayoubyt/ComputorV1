@@ -1,12 +1,12 @@
 #!/usr/bin/env python3.7
-import re
 
-from collections import deque
 
-import math
+from computer_v.math.polynomial import Polynomial
 
-import computer_v.glob as g
+# print(Polynomial.fromexpr("-1"))
+# print("\n")
+# print(Polynomial.fromexpr("1 - (x^2)"))
 
-g.varname = "yes"
+print(Polynomial.fromexpr("-(x^2 + 1)^2"))
 
-print(re.search(r"[a-zA-Z]+", "(x + 1)(x + 2)").group(0))
+#print(Polynomial.fromexpr("-1(-x^2)"))

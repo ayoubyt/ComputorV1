@@ -24,5 +24,5 @@ elif (eq_poly.deg == 0):
     else:
         print("absurde expression")
 else:
-    print(eq_poly)
+    print(eq_poly, "= 0")
     print(f"eqations of degree {eq_poly.deg} are not suported")

@@ -4,7 +4,7 @@ from .validation import elemantary_validation, brackets_balance_validation
 
 
 def read_equation():
-	flags, args = get_user_input()
+	args = get_user_input()
 	#print (flags, args)
 	elemantary_validation(args)
 	equation = args[0]
@@ -15,9 +15,10 @@ def read_equation():
 	#return(equation)
 
 def get_user_input():
-	try:
-		flags, args = getopt.getopt(sys.argv[1:], "h", ["help"])
-		return flags, args
-	except getopt.GetoptError as err:
-		print(err)
-		sys.exit(2)
+	# try:
+	# 	flags, args = getopt.getopt(sys.argv[1:], "h", ["help"])
+	# 	return flags, args
+	# except getopt.GetoptError as err:
+	# 	print(err)
+	# 	sys.exit(2)
+	return sys.argv[1:]
