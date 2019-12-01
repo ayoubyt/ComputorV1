@@ -26,7 +26,3 @@ elif (eq_poly.deg == 0):
 else:
     print(eq_poly)
     print(f"eqations of degree {eq_poly.deg} are not suported")
-#p = D2plynominal.fromexpr("x^2 + x + 1")
-
-#print(p.coefs)
-
