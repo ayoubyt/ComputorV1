@@ -26,3 +26,5 @@ elif (eq_poly.deg == 0):
 else:
     print(eq_poly, "= 0")
     print(f"eqations of degree {eq_poly.deg} are not suported")
+
+#TODO ./computor.py "-10 = -1(x^2 + 0)"
