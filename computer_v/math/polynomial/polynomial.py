@@ -31,13 +31,12 @@ class Polynomial:
 			if (co != 0):
 				co = int(co) if isinstance(co, int) or (co).is_integer() else float("%.2f" % co)
 				if (i > 0):
-					if (co != 1):
-						res += str(co)
+					res += " + " if co > 0 else " - "
+					if (abs(co) != 1):
+						res += str(abs(co))
 					res += "x^%d" % i if i > 1 else "x"
 				else:
 					res += str(co)
-				if (i < len(self.coefs) - 1):
-					res += " + "
 		return res
 
 	def __add__(self, other):
@@ -56,7 +55,7 @@ class Polynomial:
 			p1, p2 = list(map(lambda x: -x, p2)), list(map(lambda x: -x, p1))
 		for i, co in enumerate(p2):
 			p1[i] -= co
-		return (Polynomial(p1)) 
+		return (Polynomial(p1))
 
 	def __mul__(self, other):
 		p1 = self.coefs
@@ -98,7 +97,7 @@ class Polynomial:
 				if op == "/":
 					raise self.PolynominalError("can't divide by a Polynomial with deg more than 0 (real number)")
 				if op == "**":
-					raise self.PolynominalError("can't raise a polynomina with deg more than 0 (real number) to another Polynomial")	
+					raise self.PolynominalError("can't raise a polynomina with deg more than 0 (real number) to another Polynomial")
 			return other
 
 	@classmethod
@@ -142,7 +141,7 @@ class Polynomial:
 		output = []
 		for c in arr:
 			if c in ops:
-				while (len(opstack) > 0) and (opstack[-1] in ops) and (ops[c] <= ops[opstack[-1]]):		
+				while (len(opstack) > 0) and (opstack[-1] in ops) and (ops[c] <= ops[opstack[-1]]):
 						if (c != "^"):
 							output.append(opstack.pop())
 				opstack.append(c)
@@ -203,4 +202,4 @@ class Polynomial:
 			Exception.__init__(self, msg)
 		def __str__(self):
 			return (self.msg)
-				
+
