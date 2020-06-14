@@ -6,7 +6,7 @@ class D2plynominal(Polynomial):
 	"""
 		2d Polynomial represents a second degree Polynomial
 		d2Polynominal([c, b, a]) when a, b ,c represents the coefficient of
-		the Polynomial a * x^2 + b * x + c	
+		the Polynomial a * x^2 + b * x + c
 	"""
 
 	def __init__(self, coefs):
@@ -19,7 +19,7 @@ class D2plynominal(Polynomial):
 		self.roots = self._get_roots()
 
 	def solve(self):
-		print(self, " = 0")
+		print(self, "= 0")
 		print("delta : %f" % self.delta)
 		if (self.delta > 0):
 			print("delta is positive, so there are two real solutions :")
@@ -42,7 +42,7 @@ class D2plynominal(Polynomial):
 		else:
 			return cls(result.coefs)
 		#print(Error)
-	
+
 
 	def _get_roots(self):
 		"""

@@ -17,10 +17,10 @@ class D1plynominal(Polynomial):
 
 	def solve(self):
 		b, a = self.coefs
-		print(self)
+		print(self, "= 0")
 		print("a first degree equation with one solution :")
 		print("x = %f" % (-b / a))
-			
+
 
 
 	@classmethod
@@ -31,4 +31,3 @@ class D1plynominal(Polynomial):
 		else:
 			return cls(result.coefs)
 		#print(Error)
-	
