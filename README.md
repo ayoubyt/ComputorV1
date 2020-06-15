@@ -2,10 +2,6 @@
 
 ComputorV1 is a program that solves degree 2 or less equations with rational numbers and coefficients.
 
-  - Type some Markdown on the left
-  - See HTML in the right
-  - Magic
-
 ### Instalation
 
 ```sh
