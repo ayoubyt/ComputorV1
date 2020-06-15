@@ -56,5 +56,5 @@ x = -1.000000
 python computor.py "2x = 4x - 2x" 
 all numbers are solutions to this eqation
 ```
-### contributers
+### contributors
     just me :)
