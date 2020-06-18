@@ -22,7 +22,7 @@ Warning : python 3.7 or higher must be already install it in the system,if its n
 
 ### Features!
 
-  - it supports ahuman friendly mathematical synthacs
+  - it supports a human friendly mathematical synthax
     - all the following formats are supported 
         ```sh
         python computor.py "3x^2 + 2x + 5 = x4 + 2"
