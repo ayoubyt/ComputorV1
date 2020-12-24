@@ -6,7 +6,7 @@ from collections import deque
 def elemantary_validation(args):
 	#check if num args is not one
 	if (len(args) != 1):
-		pae("usage: ./computor [-h] equation", 1)
+		pae("usage: usage: python computor.py [-h] equation", 1)
 	eq = args[0]
 	# check for number of '='
 	arr = list(args[0])
