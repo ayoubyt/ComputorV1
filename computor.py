@@ -24,10 +24,10 @@ try:
         if (eq_poly.coefs[0] == 0):
             print("all numbers are solutions to this eqation")
         else:
-            print("absurde expression")
+            print("equation has no solution")
     else:
         print(eq_poly, "= 0")
-        print(f"eqations of degree {eq_poly.deg} are not suported")
+        print(f"equations of degree 3 or higher are not supported")
 except Exception as e:
     print(e)
 
