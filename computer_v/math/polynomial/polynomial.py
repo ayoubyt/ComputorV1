@@ -78,10 +78,15 @@ class Polynomial:
 
 	def __pow__(self, other):
 		p1 = self
-		n = int(self._set_op_param("**", other).coefs[0])
+		n = self._set_op_param("**", other).coefs[0]
+		if (n) < 0:
+			raise self.PolynominalError("can't raise a polynomial to negative powers")
+		if not n.is_integer():
+			raise self.PolynominalError("can't raise to anone intiger power")
 		result = p1
 		if (n == 0):
 			return Polynomial([1])
+		n = int(n)
 		for _ in range(n - 1):
 			result = result * p1
 		return result
@@ -97,7 +102,7 @@ class Polynomial:
 				if op == "/":
 					raise self.PolynominalError("can't divide by a Polynomial with deg more than 0 (real number)")
 				if op == "**":
-					raise self.PolynominalError("can't raise a polynomina with deg more than 0 (real number) to another Polynomial")
+					raise self.PolynominalError("can't raise a polynomial with deg more than 0 (real number) to another Polynomial")
 			return other
 
 	@classmethod
@@ -165,6 +170,8 @@ class Polynomial:
 
 	@classmethod
 	def _eval_postfix(cls, postfix):
+		if (not postfix):
+			raise cls.PolynominalError("empty expression.")
 		"""
 			takes an array of string elements of a mathematical expresion
 			in postfix notation and evaluats it returning a single polynominal
