@@ -27,16 +27,23 @@ class Polynomial:
 		res = ""
 		if (len(self.coefs) < 1):
 			return ("0")
+		pre = False
 		for i, co in enumerate(self.coefs):
 			if (co != 0):
 				co = int(co) if isinstance(co, int) or (co).is_integer() else float("%.2f" % co)
 				if (i > 0):
-					res += " + " if co > 0 else " - "
+					if (pre):
+						res += " + " if co > 0 else " - "
+					else:
+						if (co < 0):
+							res += "-"
+
 					if (abs(co) != 1):
 						res += str(abs(co))
 					res += "x^%d" % i if i > 1 else "x"
 				else:
 					res += str(co)
+				pre = True
 		return res
 
 	def __add__(self, other):
