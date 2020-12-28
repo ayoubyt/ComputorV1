@@ -18,13 +18,13 @@ def elemantary_validation(args):
 	if (len(set(vars)) != 1):
 		pae("only one variable is allowed\nvars detected: {}.".format(set(vars)), 1)
 	# detect invalid caracters
-	ichars = re.findall(r"[^\w\s\+\-\*\/\=\^\(\)]", eq)
+	ichars = re.findall(r"[^\w\s\+\-\*\/\=\^\(\)\.]", eq)
 	if (len(ichars) > 0):
 		pae("invalid characters\ninvalid characters detected: {}".format(ichars), 1)
 
 """
 	this function is built to check the balance
-	of brackets,'(' and ')' 
+	of brackets,'(' and ')'
 """
 def brackets_balance_validation(text):
 	stack = deque()
@@ -38,7 +38,7 @@ def brackets_balance_validation(text):
 			stack.pop()
 	if (len(stack) != 0):
 		pae("brackets are not well formated!", 1)
-		
+
 #stands for print and exit
 def pae(str, errno):
 	print( "error: " + str, file=sys.stderr)
