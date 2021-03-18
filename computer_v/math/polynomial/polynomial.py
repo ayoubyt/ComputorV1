@@ -27,16 +27,23 @@ class Polynomial:
 		res = ""
 		if (len(self.coefs) < 1):
 			return ("0")
+		pre = False
 		for i, co in enumerate(self.coefs):
 			if (co != 0):
 				co = int(co) if isinstance(co, int) or (co).is_integer() else float("%.2f" % co)
 				if (i > 0):
-					res += " + " if co > 0 else " - "
+					if (pre):
+						res += " + " if co > 0 else " - "
+					else:
+						if (co < 0):
+							res += "-"
+
 					if (abs(co) != 1):
 						res += str(abs(co))
 					res += "x^%d" % i if i > 1 else "x"
 				else:
 					res += str(co)
+				pre = True
 		return res
 
 	def __add__(self, other):
@@ -78,10 +85,15 @@ class Polynomial:
 
 	def __pow__(self, other):
 		p1 = self
-		n = int(self._set_op_param("**", other).coefs[0])
+		n = self._set_op_param("**", other).coefs[0]
+		if (n) < 0:
+			raise self.PolynominalError("can't raise a polynomial to negative powers")
+		if not n.is_integer():
+			raise self.PolynominalError("can't raise to anone intiger power")
 		result = p1
 		if (n == 0):
 			return Polynomial([1])
+		n = int(n)
 		for _ in range(n - 1):
 			result = result * p1
 		return result
@@ -97,7 +109,7 @@ class Polynomial:
 				if op == "/":
 					raise self.PolynominalError("can't divide by a Polynomial with deg more than 0 (real number)")
 				if op == "**":
-					raise self.PolynominalError("can't raise a polynomina with deg more than 0 (real number) to another Polynomial")
+					raise self.PolynominalError("can't raise a polynomial with deg more than 0 (real number) to another Polynomial")
 			return other
 
 	@classmethod
@@ -165,6 +177,8 @@ class Polynomial:
 
 	@classmethod
 	def _eval_postfix(cls, postfix):
+		if (not postfix):
+			raise cls.PolynominalError("empty expression.")
 		"""
 			takes an array of string elements of a mathematical expresion
 			in postfix notation and evaluats it returning a single polynominal

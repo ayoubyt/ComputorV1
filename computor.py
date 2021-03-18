@@ -29,6 +29,4 @@ try:
         print(eq_poly, "= 0")
         print(f"equations of degree 3 or higher are not supported")
 except Exception as e:
-    print(e)
-
-#TODO ./computor.py "-10 = -1(x^2 + 0)"
+    print("\u001b[31merror :\u001b[0m", e)
